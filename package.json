@@ -1,6 +1,6 @@
 {
     "name": "ux-box",
-    "version": "0.0.98",
+    "version": "0.0.901",
     "description": "",
     "main": "lib/index.js",
     "scripts": {
@@ -51,7 +51,7 @@
         "typescript": "^4.0.3",
         "ux-autoroute": "^1.0.5",
         "ux-autoroute-plugin": "^1.0.4",
-        "ux-redux-module": "^1.0.6",
+        "ux-redux-module": "^1.0.8",
         "webpack": "^5",
         "webpack-dev-middleware": "^3",
         "webpack-hot-middleware": "^2",

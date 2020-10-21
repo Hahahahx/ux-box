@@ -11,7 +11,11 @@ module.exports = (mode) => {
 
     const commonConfig = {
         mode,
-        entry: [path.resolve(paths.appSrc, "index.js")],
+        entry: [
+            "core-js/es/map",
+            "core-js/es/set",
+            path.resolve(paths.appSrc, "index.js"),
+        ],
         output: {
             path: paths.appBuild,
             filename: "index.js",
@@ -25,8 +29,10 @@ module.exports = (mode) => {
                 "@": paths.appSrc,
             },
             extensions: [".js", ".jsx", ".ts", ".tsx"],
+            fallback: { crypto: false },
         },
     };
 
     return merge(commonConfig, config);
 };
+
