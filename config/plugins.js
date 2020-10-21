@@ -15,13 +15,7 @@ const autoRoutePlugin = new AutoRoutePlugin({
     srcAlias: "@",
 });
 
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
-const tsconfigPathsPlugin = new TsconfigPathsPlugin({
-    configFile: path.resolve(__dirname, "../tsconfig.json"),
-});
-
 module.exports = plugins = [
     htmlWebpackPlugin,
     autoRoutePlugin,
-    tsconfigPathsPlugin,
 ];

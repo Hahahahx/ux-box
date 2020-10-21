@@ -1,6 +1,6 @@
 const env = "development";
-const webpackDevMiddleware = require("webpack-dev-middleware");
-const webpackHotMiddleware = require("webpack-hot-middleware");
+const webpackDevMiddleware = require("koa-webpack-dev-middleware");
+const webpackHotMiddleware = require("koa-webpack-hot-middleware");
 const webpack = require("webpack");
 
 const Koa = require("koa");
@@ -13,10 +13,9 @@ const app = new Koa();
 const router = new Router();
 
 router
-    .get("/lessc", async (context, next) => {})
-    .get("/assets/main.css", (req, res) => {
-        res.status(404).send("not found");
-    });
+    .get("/lessc", async (context, next) => {
+        
+    })
 
 app.use(
     webpackDevMiddleware(compiler, {
