@@ -1,12 +1,12 @@
-const env = " development";
+const env = "development";
 const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpack = require("webpack");
 
 const Koa = require("koa");
 const Router = require("@koa/router");
 
-const config = require("../config/webpack.config");
-const compiler = webpack(config(env));
+const config = require("../config/webpack.base");
+const compiler = webpack(config(env.trim()));
 
 const app = new Koa();
 const router = new Router();

@@ -3,18 +3,17 @@ const prodConfig = require("./webpack.prod");
 const devConfig = require("./webpack.dev");
 const rules = require("./rules");
 const plugins = require("./plugins");
+const path = require("path");
+const paths = require("./paths");
 
-module.exports = (env) => {
-    const config = env === "production" ? prodConfig() : devConfig();
+module.exports = (mode) => {
+    const config = mode === "production" ? prodConfig() : devConfig();
 
     const commonConfig = {
-        entry: [
-            "core-js/es/map",
-            "core-js/es/set",
-            path.join(__dirname, "./src/index.tsx"),
-        ],
+        mode,
+        entry: [path.resolve(paths.appSrc, "index.js")],
         output: {
-            path: path.join(__dirname, "./build"),
+            path: paths.appBuild,
             filename: "index.js",
         },
         module: {
