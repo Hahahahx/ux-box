@@ -22,7 +22,7 @@ module.exports = (mode) => {
         plugins: plugins,
         resolve: {
             alias: {
-                "@": path.resolve("src"),
+                "@": paths.appSrc,
             },
             extensions: [".js", ".jsx", ".ts", ".tsx"],
         },

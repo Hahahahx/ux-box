@@ -19,6 +19,6 @@
             "*": ["node_modules/*", "src/types/*"]
         }
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "lib/react-app-env.d.ts"],
     "exclude": ["node_modules"]
 }
