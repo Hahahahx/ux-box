@@ -1,5 +1,5 @@
 const path = require("path");
-const paths = require("./paths");
+const paths = require("../utils/paths");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const htmlWebpackPlugin = new HtmlWebpackPlugin({

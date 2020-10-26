@@ -3,3 +3,7 @@ example
 .gitignore
 **/debug.log
 .yarn-error.log
+.babelrc
+.browserslistrc
+.editorconfig
+yarn.lock

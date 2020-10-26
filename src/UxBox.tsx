@@ -6,20 +6,28 @@ import { BrowserRouter } from "react-router-dom";
 import { Routers } from "ux-autoroute";
 import { routeConfig } from "../config/router.js";
 
-export const run = ({
-    modules,
-    router: { NoMatch, before, after },
-}: RunConfig) => {
+const App = ({ NoMatch, before, after, useHook }: Route) => {
+    const result = useHook();
+    return (
+        <BrowserRouter>
+            <Routers
+                routers={routeConfig}
+                noMatch={NoMatch}
+                before={(location) => {
+                    if (before) {
+                        return before(location, result);
+                    }
+                }}
+                after={after}
+            />
+        </BrowserRouter>
+    );
+};
+
+export const run = ({ modules, router }: RunConfig) => {
     ReactDOM.render(
         <ReduxProvider value={modules}>
-            <BrowserRouter>
-                <Routers
-                    routers={routeConfig}
-                    noMatch={NoMatch}
-                    before={before}
-                    after={after}
-                />
-            </BrowserRouter>
+            <App {...router} />
         </ReduxProvider>,
         document.getElementById("root")
     );
@@ -32,11 +40,15 @@ export const run = ({
 
 interface RunConfig {
     modules: any;
-    router: {
-        NoMatch: () => ReactElement | JSX.Element;
-        before?: (
-            location: Location
-        ) => void | JSX.Element | React.ReactElement;
-        after?: (location: Location) => void;
-    };
+    router: Route;
+}
+
+interface Route {
+    useHook: () => any;
+    NoMatch: () => ReactElement | JSX.Element;
+    before?: (
+        location: Location,
+        hookResult?: any
+    ) => void | JSX.Element | React.ReactElement;
+    after?: (location: Location) => void;
 }

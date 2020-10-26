@@ -1,15 +1,14 @@
-const { merge } = require("webpack-merge");
 const prodConfig = require("./webpack.prod");
 const devConfig = require("./webpack.dev");
 const rules = require("./rules");
 const plugins = require("./plugins");
 const path = require("path");
-const paths = require("./paths");
+const paths = require("./utils/paths");
+const PnpWebpackPlugin = require("pnp-webpack-plugin");
 
 module.exports = (mode) => {
-    const config = mode === "production" ? prodConfig() : devConfig();
-
     const commonConfig = {
+        context: path.resolve(__dirname),
         mode,
         entry: [
             "core-js/es/map",
@@ -18,21 +17,28 @@ module.exports = (mode) => {
         ],
         output: {
             path: paths.appBuild,
-            filename: "index.js",
+            filename: "[name].js",
         },
         module: {
+            strictExportPresence: true,
             rules: rules,
         },
         plugins: plugins,
         resolve: {
+            modules: ["node_modules"],
             alias: {
                 "@": paths.appSrc,
             },
             extensions: [".js", ".jsx", ".ts", ".tsx"],
             fallback: { crypto: false },
+            plugins: [PnpWebpackPlugin],
+        },
+        resolveLoader: {
+            plugins: [PnpWebpackPlugin.moduleLoader(module)],
         },
     };
 
-    return merge(commonConfig, config);
-};
+    const configFactory = mode === "production" ? prodConfig : devConfig;
 
+    return configFactory(commonConfig);
+};

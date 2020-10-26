@@ -14,10 +14,11 @@ program
     .description("执行webpack...")
     .option("-c --config-file <file>", "配置文件")
     .option("-w --webpack-file <webpack>", "webpack配置文件")
-    .action((...args) => {
-        console.log(args);
-        console.log("dosth");
-        spwan.sync("node", [path.resolve(__dirname, "../script/start.js")], {
+    .action((args) => {
+        spwan.sync("node", [path.resolve(__dirname, "../script/start.js"),JSON.stringify({
+            webpackFile:args.webpackFile,
+            configFile:args.configFile,
+        })], {
             stdio: "inherit",
         });
     });
