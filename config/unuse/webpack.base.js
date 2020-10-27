@@ -3,7 +3,7 @@ const devConfig = require("./webpack.dev");
 const rules = require("./rules");
 const plugins = require("./plugins");
 const path = require("path");
-const paths = require("./utils/paths");
+const paths = require("../utils/paths") ;
 const PnpWebpackPlugin = require("pnp-webpack-plugin");
 
 module.exports = (mode) => {
@@ -16,8 +16,11 @@ module.exports = (mode) => {
             path.resolve(paths.appSrc, "index.js"),
         ],
         output: {
+            publicPath: paths.publicUrlOrPath,
             path: paths.appBuild,
             filename: "[name].js",
+            jsonpFunction: `webpackJsonp${paths.appPackageJson.name}`,
+            globalObject: "this",
         },
         module: {
             strictExportPresence: true,

@@ -3,8 +3,6 @@
 import {
     Routers,
     useRoute,
-    LazyComponent,
-    loadable,
     RouterView,
 } from "ux-autoroute";
 import {
@@ -55,8 +53,6 @@ declare module "ux-box" {
     export {
         run,
         Routers,
-        loadable,
-        LazyComponent,
         RouterView,
         useRoute,
         ReduxProvider,
