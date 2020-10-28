@@ -48,7 +48,7 @@ function todo(args) {
         path.resolve(__dirname, "../tsconfig.json")
     );
     copySync(
-        path.join(paths.appSrc, "router.js"),
+        path.join(paths.appSrc, "router.ts"),
         path.resolve(__dirname, "../router.js")
     );
     //copySync(path.resolve(paths.appPath, "jsconfig.js"), "../jsconfig.js");
