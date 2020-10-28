@@ -38,8 +38,8 @@ const getPlugins = (isEnvDevelopment, isEnvProduction) => {
         // 自定义路由配置插件
         new RouterPlugin({
             pagePath: path.resolve(paths.appSrc, "./pages"),
-            output: path.resolve(__dirname),
-            filename: "router.js",
+            output: paths.appSrc,
+            filename: "router.ts",
         }),
         // antd时间插件momentjs替换为dayjs，减小包大小
         new AntdDayJsWebpackPlugin(),

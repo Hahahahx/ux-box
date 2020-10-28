@@ -4,14 +4,13 @@ import * as serviceWorker from "./serviceWorker";
 import { ReduxProvider } from "ux-redux-module";
 import { BrowserRouter, HashRouter } from "react-router-dom";
 import { Routers } from "ux-autoroute";
-import { routeConfig } from "../config/router.js";
 
-const App = ({ NoMatch, before, after, useHook, isHashRouter }: Route) => {
+const App = ({ NoMatch, before, after, useHook, isHashRouter ,router}: Route) => {
     const result = useHook();
     return (
         <Router isHashRouter={isHashRouter}>
             <Routers
-                routers={routeConfig}
+                routers={router}
                 noMatch={NoMatch}
                 before={(location) => {
                     if (before) {
@@ -52,6 +51,7 @@ interface RunConfig {
 }
 
 interface Route {
+    router:any
     isHashRouter?: boolean;
     useHook: () => any;
     NoMatch: () => ReactElement | JSX.Element;

@@ -1,6 +1,6 @@
 /// <reference types="react" />
 
-import { Routers, useRoute, RouterView } from "ux-autoroute";
+import { Routers, useRoute, RouterView,RouteParams } from "ux-autoroute";
 import {
     ReduxProvider,
     useModule,
@@ -10,29 +10,30 @@ import {
     LocalStorage,
 } from "ux-redux-module";
 
-/**
- * routers 路由映射表对象
- * noMatch 404
- * before 访问路有前触发，如果结果返回了JSX对象的话则替换默认的路由组件
- * after 路由组件生成后触发
- */
-interface RunConfig {
-    modules: any;
-    router: Route;
-}
-
-interface Route {
-    isHashRouter?: boolean;
-    useHook: () => any;
-    NoMatch: () => React.ReactElement | JSX.Element;
-    before?: (
-        location: Location,
-        hookResult?: any
-    ) => void | JSX.Element | React.ReactElement;
-    after?: (location: Location) => void;
-}
-
 declare module "ux-box" {
+    /**
+     * routers 路由映射表对象
+     * noMatch 404
+     * before 访问路有前触发，如果结果返回了JSX对象的话则替换默认的路由组件
+     * after 路由组件生成后触发
+     */
+    export interface RunConfig {
+        modules: any;
+        router: Route;
+    }
+
+    export interface Route {
+        router: Array<RouteParams>;
+        isHashRouter?: boolean;
+        useHook: () => any;
+        NoMatch: () => React.ReactElement | JSX.Element;
+        before?: (
+            location: Location,
+            hookResult?: any
+        ) => void | JSX.Element | React.ReactElement;
+        after?: (location: Location) => void;
+    }
+
     /**
      * 启动文件
      * @param params  modules,router 
