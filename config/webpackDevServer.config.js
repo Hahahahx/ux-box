@@ -45,6 +45,11 @@ module.exports = function (proxy, allowedHost) {
         public: allowedHost,
         proxy: proxy,
         before(app, server) {
+            app.get('/user',function(req,res){
+                console.log(req,res);
+                res.json({user:'dddd'})
+            })
+            
             app.use(evalSourceMapMiddleware(server));
             app.use(errorOverlayMiddleware());
 

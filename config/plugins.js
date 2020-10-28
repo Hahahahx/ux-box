@@ -40,7 +40,6 @@ const getPlugins = (isEnvDevelopment, isEnvProduction) => {
             pagePath: path.resolve(paths.appSrc, "./pages"),
             output: path.resolve(__dirname),
             filename: "router.js",
-            srcAlias: "@",
         }),
         // antd时间插件momentjs替换为dayjs，减小包大小
         new AntdDayJsWebpackPlugin(),

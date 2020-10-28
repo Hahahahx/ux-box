@@ -15,10 +15,10 @@
         "jsx": "react",
         "lib": ["dom", "dom.iterable", "esnext"],
         "paths": {
-            "*": ["../../node_modules/*", "../../src/types/*"],
-            "@":["../../src"]
+            "*": ["node_modules/*", "src/types/*"],
+            "@":["src"]
         }
     },
-    "include": ["../../src/**/*"],
-    "exclude": ["../../node_modules"]
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"]
 }

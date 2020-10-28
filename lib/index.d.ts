@@ -1,10 +1,6 @@
 /// <reference types="react" />
 
-import {
-    Routers,
-    useRoute,
-    RouterView,
-} from "ux-autoroute";
+import { Routers, useRoute, RouterView } from "ux-autoroute";
 import {
     ReduxProvider,
     useModule,
@@ -26,6 +22,7 @@ interface RunConfig {
 }
 
 interface Route {
+    isHashRouter?: boolean;
     useHook: () => any;
     NoMatch: () => React.ReactElement | JSX.Element;
     before?: (

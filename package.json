@@ -1,6 +1,6 @@
 {
     "name": "ux-box",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "",
     "main": "lib/index.js",
     "scripts": {
@@ -21,18 +21,6 @@
         "webpack",
         "antd"
     ],
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
     "author": "ux",
     "license": "ISC",
     "devDependencies": {

@@ -2,14 +2,14 @@ import React, { ReactElement } from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import { ReduxProvider } from "ux-redux-module";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import { Routers } from "ux-autoroute";
 import { routeConfig } from "../config/router.js";
 
-const App = ({ NoMatch, before, after, useHook }: Route) => {
+const App = ({ NoMatch, before, after, useHook, isHashRouter }: Route) => {
     const result = useHook();
     return (
-        <BrowserRouter>
+        <Router isHashRouter={isHashRouter}>
             <Routers
                 routers={routeConfig}
                 noMatch={NoMatch}
@@ -20,7 +20,15 @@ const App = ({ NoMatch, before, after, useHook }: Route) => {
                 }}
                 after={after}
             />
-        </BrowserRouter>
+        </Router>
+    );
+};
+
+const Router = ({ children, isHashRouter }: any) => {
+    return isHashRouter ? (
+        <HashRouter>{children}</HashRouter>
+    ) : (
+        <BrowserRouter>{children}</BrowserRouter>
     );
 };
 
@@ -44,6 +52,7 @@ interface RunConfig {
 }
 
 interface Route {
+    isHashRouter?: boolean;
     useHook: () => any;
     NoMatch: () => ReactElement | JSX.Element;
     before?: (
