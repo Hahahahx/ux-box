@@ -10,19 +10,20 @@ import {
     LocalStorage,
 } from "ux-redux-module";
 
-declare module "ux-box" {
+declare namespace Box {
+    
     /**
      * routers 路由映射表对象
      * noMatch 404
      * before 访问路有前触发，如果结果返回了JSX对象的话则替换默认的路由组件
      * after 路由组件生成后触发
      */
-    export interface RunConfig {
+    interface RunConfig {
         modules: any;
         router: Route;
     }
 
-    export interface Route {
+    interface Route {
         router: Array<RouteParams>;
         isHashRouter?: boolean;
         useHook: () => any;
@@ -33,6 +34,9 @@ declare module "ux-box" {
         ) => void | JSX.Element | React.ReactElement;
         after?: (location: Location) => void;
     }
+}
+
+declare module "ux-box" {
 
     /**
      * 启动文件
@@ -46,7 +50,7 @@ declare module "ux-box" {
         after?: (location: Location) => void;
     
      */
-    function run(params: RunConfig): void;
+    function run(params: Box.RunConfig): void;
 
     export {
         run,
