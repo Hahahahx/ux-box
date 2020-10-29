@@ -44,8 +44,8 @@ program
 
 function todo(args) {
     copySync(
-        path.join(paths.appPath, "eslintrc.json"),
-        path.resolve(__dirname, "../eslintrc.json")
+        path.join(paths.appPath, ".eslintrc.json"),
+        path.resolve(__dirname, "../.eslintrc.json")
     );
     copySync(
         path.join(paths.appPath, "tsconfig.json"),
