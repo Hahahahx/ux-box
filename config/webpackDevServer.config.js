@@ -9,6 +9,7 @@ const redirectServedPath = require("react-dev-utils/redirectServedPathMiddleware
 const paths = require("./utils/paths");
 const path = require("path");
 const getHttpsConfig = require("./utils/getHttpsConfig");
+const Theme = require("ux-less-theme");
 
 const host = process.env.HOST || "0.0.0.0";
 const sockHost = process.env.WDS_SOCKET_HOST;
@@ -45,11 +46,14 @@ module.exports = function (proxy, allowedHost) {
         public: allowedHost,
         proxy: proxy,
         before(app, server) {
-            app.get('/user',function(req,res){
-                console.log(req,res);
-                res.json({user:'dddd'})
-            })
-            
+            app.use(
+                Theme.themeMiddleware({
+                    baseUrl: "/less",
+                    antdDir: path.resolve(paths.appNodeModules, "./antd"),
+                    indexDir: path.resolve(paths.appSrc, "./assets/styles"),
+                    outputDir: paths.appPublic,
+                })
+            );
             app.use(evalSourceMapMiddleware(server));
             app.use(errorOverlayMiddleware());
 

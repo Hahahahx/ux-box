@@ -16,7 +16,11 @@
         "lib": ["dom", "dom.iterable", "esnext"],
         "paths": {
             "*": ["node_modules/*", "src/types/*"],
-            "@":["src"]
+            "@": ["src"],
+            "@modules": ["src/modules"],
+            "@images": ["src/assets/images"],
+            "@styles": ["src/assets/styles"],
+            "@components": ["src/components"]
         }
     },
     "include": ["src/**/*"],
