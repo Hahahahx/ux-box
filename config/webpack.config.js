@@ -194,6 +194,8 @@ module.exports = function (webpackEnv) {
                 "@": paths.appSrc,
                 "@images": path.join(paths.appSrc, "/assets/images"),
                 "@styles": path.join(paths.appSrc, "/assets/styles"),
+                "@assets": path.join(paths.appSrc, "/assets"),
+                "@pages": path.join(paths.appSrc, "/pages"),
                 "@modules": path.join(paths.appSrc, "/modules"),
                 "@services": path.join(paths.appSrc, "/services"),
                 "@components": path.join(paths.appSrc, "/components"),
