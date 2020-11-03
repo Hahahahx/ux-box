@@ -195,6 +195,7 @@ module.exports = function (webpackEnv) {
                 "@images": path.join(paths.appSrc, "/assets/images"),
                 "@styles": path.join(paths.appSrc, "/assets/styles"),
                 "@modules": path.join(paths.appSrc, "/modules"),
+                "@services": path.join(paths.appSrc, "/services"),
                 "@components": path.join(paths.appSrc, "/components"),
                 // Support React Native Web
                 // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
