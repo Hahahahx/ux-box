@@ -154,6 +154,7 @@ const getRules = (isEnvDevelopment, isEnvProduction, shouldUseSourceMap) => {
                                     useESModules: true, // 使用 es modules helpers, 减少 commonJS 语法代码
                                 },
                             ],
+                            "@babel/plugin-proposal-optional-chaining",
                             "@babel/plugin-syntax-jsx",
                             [
                                 "@babel/plugin-proposal-decorators",
