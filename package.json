@@ -108,7 +108,7 @@
         "typescript": "^4.0.3",
         "url-loader": "2.3.0",
         "ux-autoroute": "^1.0.7",
-        "ux-autoroute-plugin": "^1.1.2",
+        "ux-autoroute-plugin": "^1.1.3",
         "ux-less-theme": "^1.0.6",
         "ux-redux-module": "^1.1.0",
         "webpack": "^4.41.5",
