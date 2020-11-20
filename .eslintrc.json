@@ -1,36 +1,53 @@
 {
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-        "@typescript-eslint/eslint-plugin"
-    ],
-    "extends": [
-        "alloy",
-        "alloy/react",
-        "alloy/typescript"
-    ],
-    "settings": {
-        "react": {
-            "version": "detect"
-        }
-    },
-    "env": {
-        // 您的环境变量（包含多个预定义的全局变量）
-        // Your environments (which contains several predefined global variables)
-        //
-        // browser: true,
-        // node: true,
-        // mocha: true,
-        // jest: true,
-        // jquery: true
-    },
-    "globals": {
-        // 您的全局变量（设置为 false 表示它不允许被重新赋值）
-        // Your global variables (setting to false means it's not allowed to be reassigned)
-        //
-        // myGlobal: false
-    },
-    "rules": {
-        // 自定义您的规则
-        // Customize your rules
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint/eslint-plugin", "react-hooks"],
+  "extends": ["alloy", "alloy/react", "alloy/typescript"],
+  "settings": {
+    "react": {
+      "version": "detect"
     }
+  },
+  "env": {
+    // 您的环境变量（包含多个预定义的全局变量）
+    // Your environments (which contains several predefined global variables)
+    //
+    // browser: true,
+    // node: true,
+    // mocha: true,
+    // jest: true,
+    // jquery: true
+  },
+  "globals": {
+    // 您的全局变量（设置为 false 表示它不允许被重新赋值）
+    // Your global variables (setting to false means it's not allowed to be reassigned)
+    //
+    // myGlobal: false
+  },
+  "rules": {
+    "@typescript-eslint/prefer-optional-chain": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "brace-style": ["warn"],
+    "curly": ["error", "all"],
+    "eqeqeq": ["error", "always", { "null": "ignore" }],
+    "guard-for-in": "error",
+    "linebreak-style": ["off", "windows"],
+    "no-case-declarations": "off",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-prototype-builtins": "error",
+    "no-undef": "off",
+    "no-shadow": "warn",
+    "object-shorthand": ["error", "always"],
+    "prettier/prettier": "off",
+    "react-hooks/rules-of-hooks": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react/jsx-key": "off",
+    "react/display-name": "error",
+    "react/no-unescaped-entities": "off",
+    "react/no-find-dom-node": "off",
+    "react/prop-types": "off",
+    "react/jsx-no-useless-fragment": "off"
+  }
 }

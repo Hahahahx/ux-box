@@ -13,7 +13,6 @@ const { getRules } = require("./rules");
 const { getPlugins } = require("./plugins");
 const appPackageJson = require(paths.appPackageJson);
 
-
 const isExtendingEslintConfig = process.env.EXTEND_ESLINT === "true";
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== "false";
@@ -34,16 +33,10 @@ module.exports = function (webpackEnv) {
 
     return {
         context: path.resolve(__dirname),
-        mode: isEnvProduction
-            ? "production"
-            : isEnvDevelopment && "development",
+        mode: isEnvProduction ? "production" : "development",
         // Stop compilation early in production
         bail: isEnvProduction,
-        devtool: isEnvProduction
-            ? shouldUseSourceMap
-                ? "source-map"
-                : false
-            : isEnvDevelopment && "cheap-module-source-map",
+        devtool: isEnvProduction ? false : "ource-map",
         // These are the "entry points" to our application.
         // This means they will be the "root" imports that are included in JS bundle.
         entry: [
@@ -134,13 +127,13 @@ module.exports = function (webpackEnv) {
                             ascii_only: true,
                         },
                     },
-                    sourceMap: shouldUseSourceMap,
+                    sourceMap: isEnvDevelopment,
                 }),
                 // This is only used in production mode
                 new OptimizeCSSAssetsPlugin({
                     cssProcessorOptions: {
                         parser: safePostCssParser,
-                        map: shouldUseSourceMap
+                        map: isEnvDevelopment
                             ? {
                                   // `inline: false` forces the sourcemap to be output into a
                                   // separate file

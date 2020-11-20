@@ -40,10 +40,10 @@ const getRules = (isEnvDevelopment, isEnvProduction, shouldUseSourceMap) => {
                               modifyVars: {},
                               javascriptEnabled: true,
                           },
-                          sourceMap: true,
+                          sourceMap: isEnvDevelopment,
                       }
                     : {
-                          sourceMap: true,
+                          sourceMap: isEnvDevelopment,
                       };
             loaders.push(
                 {
@@ -69,7 +69,7 @@ const getRules = (isEnvDevelopment, isEnvProduction, shouldUseSourceMap) => {
                             postcssNormalize(),
                         ],
                         syntax: require("postcss-less"),
-                        sourceMap: isEnvProduction && shouldUseSourceMap,
+                        sourceMap: isEnvDevelopment,
                     },
                 },
                 {
@@ -220,8 +220,8 @@ const getRules = (isEnvDevelopment, isEnvProduction, shouldUseSourceMap) => {
                         // Babel sourcemaps are needed for debugging into node_modules
                         // code.  Without the options below, debuggers like VSCode
                         // show incorrect code and set breakpoints on the wrong lines.
-                        sourceMaps: shouldUseSourceMap,
-                        inputSourceMap: shouldUseSourceMap,
+                        sourceMaps: isEnvDevelopment, // shouldUseSourceMap,
+                        inputSourceMap: isEnvDevelopment, // shouldUseSourceMap,
                     },
                 },
                 {
@@ -229,7 +229,7 @@ const getRules = (isEnvDevelopment, isEnvProduction, shouldUseSourceMap) => {
                     exclude: cssModuleRegex,
                     use: getStyleLoaders({
                         importLoaders: 2,
-                        sourceMap: isEnvProduction && shouldUseSourceMap,
+                        sourceMap: isEnvDevelopment,
                     }),
                     sideEffects: true,
                 },
@@ -237,7 +237,7 @@ const getRules = (isEnvDevelopment, isEnvProduction, shouldUseSourceMap) => {
                     test: cssModuleRegex,
                     use: getStyleLoaders({
                         importLoaders: 2,
-                        sourceMap: isEnvProduction && shouldUseSourceMap,
+                        sourceMap: isEnvDevelopment,
                         modules: {
                             getLocalIdent: getCSSModuleLocalIdent,
                         },
@@ -249,7 +249,7 @@ const getRules = (isEnvDevelopment, isEnvProduction, shouldUseSourceMap) => {
                     use: getStyleLoaders(
                         {
                             importLoaders: 2,
-                            sourceMap: isEnvProduction && shouldUseSourceMap,
+                            sourceMap: isEnvDevelopment,
                         },
                         "less-loader"
                     ),
@@ -260,7 +260,7 @@ const getRules = (isEnvDevelopment, isEnvProduction, shouldUseSourceMap) => {
                     use: getStyleLoaders(
                         {
                             importLoaders: 2,
-                            sourceMap: isEnvProduction && shouldUseSourceMap,
+                            sourceMap: isEnvDevelopment, // isEnvProduction && shouldUseSourceMap,
                             modules: {
                                 getLocalIdent: getCSSModuleLocalIdent,
                             },
