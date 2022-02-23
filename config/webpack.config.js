@@ -1,38 +1,46 @@
-"use strict";
-
-const fs = require("fs");
-const path = require("path");
-const PnpWebpackPlugin = require("pnp-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const safePostCssParser = require("postcss-safe-parser");
-const ModuleScopePlugin = require("react-dev-utils/ModuleScopePlugin");
-const paths = require("./utils/paths");
-const modules = require("./utils/modules");
-const { getRules } = require("./rules");
-const { getPlugins } = require("./plugins");
-const appPackageJson = require(paths.appPackageJson);
+import { existsSync } from "fs";
+import { resolve as _resolve, relative, join } from "path";
+import PnpWebpackPlugin, { moduleLoader } from "pnp-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
+import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
+import safePostCssParser from "postcss-safe-parser";
+import ModuleScopePlugin from "react-dev-utils/ModuleScopePlugin";
+import {
+    appPackageJson as _appPackageJson,
+    appTsConfig,
+    appIndexJs,
+    appBuild,
+    publicUrlOrPath,
+    appSrc,
+    appNodeModules,
+    moduleFileExtensions,
+} from "./utils/paths";
+import { additionalModulePaths, webpackAliases } from "./utils/modules";
+import { getRules } from "./rules";
+import { getPlugins } from "./plugins";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const appPackageJson = require(_appPackageJson);
 
 const isExtendingEslintConfig = process.env.EXTEND_ESLINT === "true";
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== "false";
 
 // Check if TypeScript is setup
-const useTypeScript = fs.existsSync(paths.appTsConfig);
+const useTypeScript = existsSync(appTsConfig);
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
-module.exports = function (webpackEnv) {
+export default function (webpackEnv) {
     const isEnvDevelopment = webpackEnv === "development";
     const isEnvProduction = webpackEnv === "production";
-
-    // Variable used for enabling profiling in Production
-    // passed into alias object. Uses a flag if passed into the build command
+ 
+    // 用于在生产环境中启用分析的变量
+    // 传入变量别名，如果传入构建命令，则使用标志
     const isEnvProductionProfile =
         isEnvProduction && process.argv.includes("--profile");
 
     return {
-        context: path.resolve(__dirname),
+        context: _resolve(__dirname),
         mode: isEnvProduction ? "production" : "development",
         // Stop compilation early in production
         bail: isEnvProduction,
@@ -47,14 +55,14 @@ module.exports = function (webpackEnv) {
             isEnvDevelopment &&
                 require.resolve("react-dev-utils/webpackHotDevClient"),
             // Finally, this is your app's code:
-            paths.appIndexJs,
+            appIndexJs,
             // We include the app code last so that if there is a runtime error during
             // initialization, it doesn't blow up the WebpackDevServer client, and
             // changing JS code would still trigger a refresh.
         ].filter(Boolean),
         output: {
             // The build folder.
-            path: isEnvProduction ? paths.appBuild : undefined,
+            path: isEnvProduction ? appBuild : undefined,
             // Add /* filename */ comments to generated require()s in the output.
             pathinfo: isEnvDevelopment,
             // There will be one main bundle, and one file per asynchronous chunk.
@@ -71,18 +79,17 @@ module.exports = function (webpackEnv) {
             // webpack uses `publicPath` to determine where the app is being served from.
             // It requires a trailing slash, or the file assets will get an incorrect path.
             // We inferred the "public path" (such as / or /my-project) from homepage.
-            publicPath: paths.publicUrlOrPath,
+            publicPath: publicUrlOrPath,
             // Point sourcemap entries to original disk location (format as URL on Windows)
             devtoolModuleFilenameTemplate: isEnvProduction
                 ? (info) =>
-                      path
-                          .relative(paths.appSrc, info.absoluteResourcePath)
-                          .replace(/\\/g, "/")
+                      relative(appSrc, info.absoluteResourcePath).replace(
+                          /\\/g,
+                          "/"
+                      )
                 : isEnvDevelopment &&
                   ((info) =>
-                      path
-                          .resolve(info.absoluteResourcePath)
-                          .replace(/\\/g, "/")),
+                      _resolve(info.absoluteResourcePath).replace(/\\/g, "/")),
             // Prevents conflicts when multiple webpack runtimes (from different apps)
             // are used on the same page.
             jsonpFunction: `webpackJsonp${appPackageJson.name}`,
@@ -171,8 +178,8 @@ module.exports = function (webpackEnv) {
             // We placed these paths second because we want `node_modules` to "win"
             // if there are any conflicts. This matches Node resolution mechanism.
             // https://github.com/facebook/create-react-app/issues/253
-            modules: ["node_modules", paths.appNodeModules].concat(
-                modules.additionalModulePaths || []
+            modules: ["node_modules", appNodeModules].concat(
+                additionalModulePaths || []
             ),
             // These are the reasonable defaults supported by the Node ecosystem.
             // We also include JSX as a common component filename extension to support
@@ -180,45 +187,44 @@ module.exports = function (webpackEnv) {
             // https://github.com/facebook/create-react-app/issues/290
             // `web` extension prefixes have been added for better support
             // for React Native Web.
-            extensions: paths.moduleFileExtensions
+            extensions: moduleFileExtensions
                 .map((ext) => `.${ext}`)
                 .filter((ext) => useTypeScript || !ext.includes("ts")),
             alias: {
-                "@": paths.appSrc,
-                "@images": path.join(paths.appSrc, "/assets/images"),
-                "@styles": path.join(paths.appSrc, "/assets/styles"),
-                "@assets": path.join(paths.appSrc, "/assets"),
-                "@pages": path.join(paths.appSrc, "/pages"),
-                "@modules": path.join(paths.appSrc, "/modules"),
-                "@services": path.join(paths.appSrc, "/services"),
-                "@components": path.join(paths.appSrc, "/components"),
-                // Support React Native Web
+                "@": appSrc,
+                "@images": join(appSrc, "/assets/images"),
+                "@styles": join(appSrc, "/assets/styles"),
+                "@assets": join(appSrc, "/assets"),
+                "@pages": join(appSrc, "/pages"),
+                "@modules": join(appSrc, "/modules"),
+                "@services": join(appSrc, "/services"),
+                "@components": join(appSrc, "/components"),
+                // 支持 React Native Web
                 // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-                "react-native": "react-native-web",
-                // Allows for better profiling with ReactDevTools
+                "react-native": "react-native-web", 
+                // 允许ReactDevTools更好的识别
                 ...(isEnvProductionProfile && {
                     "react-dom$": "react-dom/profiling",
                     "scheduler/tracing": "scheduler/tracing-profiling",
                 }),
-                ...(modules.webpackAliases || {}),
+                ...(webpackAliases || {}),
             },
-            plugins: [
-                // Adds support for installing with Plug'n'Play, leading to faster installs and adding
-                // guards against forgotten dependencies and such.
+            plugins: [ 
+                // 即插即用插件，更好的安装和添加模块，也防止某些依赖被遗忘
                 PnpWebpackPlugin,
                 // Prevents users from importing files from outside of src/ (or node_modules/).
                 // This often causes confusion because we only process files within src/ with babel.
                 // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
                 // please link the files into your node_modules/ and let module-resolution kick in.
                 // Make sure your source files are compiled, as they will not be processed in any way.
-                new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
+                new ModuleScopePlugin(appSrc, [_appPackageJson]),
             ],
         },
         resolveLoader: {
             plugins: [
                 // Also related to Plug'n'Play, but this time it tells webpack to load its loaders
                 // from the current package.
-                PnpWebpackPlugin.moduleLoader(module),
+                moduleLoader(module),
             ],
         },
         module: {
@@ -244,4 +250,4 @@ module.exports = function (webpackEnv) {
         },
         performance: false,
     };
-};
+}

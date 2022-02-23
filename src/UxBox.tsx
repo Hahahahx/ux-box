@@ -1,41 +1,21 @@
 import React, { ReactElement } from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
-import { ReduxProvider } from "ux-redux-module";
-import { BrowserRouter, HashRouter } from "react-router-dom";
 import { Routers } from "ux-autoroute";
 
-const App = ({ NoMatch, before, after, useHook, isHashRouter ,router}: Route) => {
-    const result = useHook();
+const RouteComponent = ({ NoMatch, isHashRouter, router }: Route) => {
     return (
-        <Router isHashRouter={isHashRouter}>
-            <Routers
-                routers={router}
-                noMatch={NoMatch}
-                before={(location) => {
-                    if (before) {
-                        return before(location, result);
-                    }
-                }}
-                after={after}
-            />
-        </Router>
+        <Routers
+            type={isHashRouter ? "hash" : "history"}
+            routers={router}
+            noMatch={NoMatch}
+        />
     );
 };
 
-const Router = ({ children, isHashRouter }: any) => {
-    return isHashRouter ? (
-        <HashRouter>{children}</HashRouter>
-    ) : (
-        <BrowserRouter>{children}</BrowserRouter>
-    );
-};
-
-export const run = ({ modules, router }: RunConfig) => {
+export const run = ({ router }: RunConfig) => {
     ReactDOM.render(
-        <ReduxProvider value={modules}>
-            <App {...router} />
-        </ReduxProvider>,
+        <RouteComponent {...router} />,
         document.getElementById("root")
     );
 
@@ -46,18 +26,11 @@ export const run = ({ modules, router }: RunConfig) => {
 };
 
 interface RunConfig {
-    modules: any;
     router: Route;
 }
 
 interface Route {
-    router:any
+    router: any;
     isHashRouter?: boolean;
-    useHook: () => any;
-    NoMatch: () => ReactElement | JSX.Element;
-    before?: (
-        location: Location,
-        hookResult?: any
-    ) => void | JSX.Element | React.ReactElement;
-    after?: (location: Location) => void;
+    NoMatch: ReactElement | JSX.Element;
 }

@@ -62,7 +62,7 @@ module.exports = {
   appJsConfig: resolveApp("jsconfig.json"),
   yarnLockFile: resolveApp("yarn.lock"),
   testsSetup: resolveModule(resolveApp, "src/setupTests"),
-  proxySetup: resolveApp("src/setupProxy.js"),
+  proxySetup: resolveApp("src/setupProxy" + existsSync(resolveApp("tsconfig.json")) ? ".ts" : ".js"),
   appNodeModules: resolveApp("node_modules"),
   publicUrlOrPath,
 };

@@ -1,29 +1,33 @@
-"use strict";
-
-const fs = require("fs");
-const errorOverlayMiddleware = require("react-dev-utils/errorOverlayMiddleware");
-const evalSourceMapMiddleware = require("react-dev-utils/evalSourceMapMiddleware");
-const noopServiceWorkerMiddleware = require("react-dev-utils/noopServiceWorkerMiddleware");
-const ignoredFiles = require("react-dev-utils/ignoredFiles");
-const redirectServedPath = require("react-dev-utils/redirectServedPathMiddleware");
-const paths = require("./utils/paths");
-const path = require("path");
-const getHttpsConfig = require("./utils/getHttpsConfig");
-const Theme = require("ux-less-theme");
+import { existsSync } from "fs";
+import errorOverlayMiddleware from "react-dev-utils/errorOverlayMiddleware";
+import evalSourceMapMiddleware from "react-dev-utils/evalSourceMapMiddleware";
+import noopServiceWorkerMiddleware from "react-dev-utils/noopServiceWorkerMiddleware";
+import ignoredFiles from "react-dev-utils/ignoredFiles";
+import redirectServedPath from "react-dev-utils/redirectServedPathMiddleware";
+import {
+    appPublic,
+    publicUrlOrPath,
+    appSrc,
+    appNodeModules,
+    proxySetup,
+} from "./utils/paths";
+import { resolve } from "path";
+import getHttpsConfig from "./utils/getHttpsConfig";
+import { themeMiddleware } from "ux-less-theme";
 
 const host = process.env.HOST || "0.0.0.0";
 const sockHost = process.env.WDS_SOCKET_HOST;
 const sockPath = process.env.WDS_SOCKET_PATH; // default: '/sockjs-node'
 const sockPort = process.env.WDS_SOCKET_PORT;
 
-module.exports = function (proxy, allowedHost) {
+export default function (proxy, allowedHost) {
     return {
         disableHostCheck:
             !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === "true",
         compress: true,
         clientLogLevel: "none",
-        contentBase: paths.appPublic,
-        contentBasePublicPath: paths.publicUrlOrPath,
+        contentBase: appPublic,
+        contentBasePublicPath: publicUrlOrPath,
         watchContentBase: true,
         hot: true,
         transportMode: "ws",
@@ -31,39 +35,39 @@ module.exports = function (proxy, allowedHost) {
         sockHost,
         sockPath,
         sockPort,
-        publicPath: paths.publicUrlOrPath.slice(0, -1),
+        publicPath: publicUrlOrPath.slice(0, -1),
         quiet: true,
         watchOptions: {
-            ignored: ignoredFiles(paths.appSrc),
+            ignored: ignoredFiles(appSrc),
         },
         https: getHttpsConfig(),
         host,
         overlay: false,
         historyApiFallback: {
             disableDotRule: true,
-            index: paths.publicUrlOrPath,
+            index: publicUrlOrPath,
         },
         public: allowedHost,
-        proxy: proxy,
+        proxy,
         before(app, server) {
             app.use(
-                Theme.themeMiddleware({
+                themeMiddleware({
                     baseUrl: "/less",
-                    antdDir: path.resolve(paths.appNodeModules, "./antd"),
-                    indexDir: path.resolve(paths.appSrc, "./assets/styles"),
-                    outputDir: paths.appPublic,
+                    antdDir: resolve(appNodeModules, "./antd"),
+                    indexDir: resolve(appSrc, "./assets/styles"),
+                    outputDir: appPublic,
                 })
             );
             app.use(evalSourceMapMiddleware(server));
             app.use(errorOverlayMiddleware());
 
-            if (fs.existsSync(paths.proxySetup)) {
-                require(paths.proxySetup)(app);
+            if (existsSync(proxySetup)) {
+                require(proxySetup)(app);
             }
         },
         after(app) {
-            app.use(redirectServedPath(paths.publicUrlOrPath));
-            app.use(noopServiceWorkerMiddleware(paths.publicUrlOrPath));
+            app.use(redirectServedPath(publicUrlOrPath));
+            app.use(noopServiceWorkerMiddleware(publicUrlOrPath));
         },
     };
-};
+}

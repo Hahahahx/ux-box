@@ -1,17 +1,8 @@
 /// <reference types="react" />
 
-import { Routers, useRoute, RouterView,RouteParams } from "ux-autoroute";
-import {
-    ReduxProvider,
-    useModule,
-    Action,
-    Update,
-    SessionStorage,
-    LocalStorage,
-} from "ux-redux-module";
+import { Routers, useRoute, RouterView, RouteParams } from "ux-autoroute";
 
 declare namespace Box {
-    
     /**
      * routers 路由映射表对象
      * noMatch 404
@@ -19,49 +10,25 @@ declare namespace Box {
      * after 路由组件生成后触发
      */
     interface RunConfig {
-        modules: any;
         router: Route;
     }
 
     interface Route {
         router: Array<RouteParams>;
         isHashRouter?: boolean;
-        useHook: () => any;
         NoMatch: () => React.ReactElement | JSX.Element;
-        before?: (
-            location: Location,
-            hookResult?: any
-        ) => void | JSX.Element | React.ReactElement;
-        after?: (location: Location) => void;
     }
 }
 
-declare module "ux-box" {
-
+declare module "ux-box-min" {
     /**
      * 启动文件
      * @param params  modules,router 
      * @param params.modules  UserModule 
      * @param params.router 
-        NoMatch: () => ReactElement | JSX.Element;
-        before?: (
-            location: Location
-        ) => void | JSX.Element | React.ReactElement;
-        after?: (location: Location) => void;
     
      */
     function run(params: Box.RunConfig): void;
 
-    export {
-        run,
-        Routers,
-        RouterView,
-        useRoute,
-        ReduxProvider,
-        useModule,
-        Action,
-        Update,
-        SessionStorage,
-        LocalStorage,
-    };
+    export { run, Routers, RouterView, useRoute };
 }

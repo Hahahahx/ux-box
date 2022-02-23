@@ -13,7 +13,8 @@ const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
 const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
 const ForkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
 const typescriptFormatter = require("react-dev-utils/typescriptFormatter");
-const RouterPlugin = require("ux-autoroute-plugin");
+const RouterPlugin = require("ux-autoroute-plugin")
+
 const AntdDayJsWebpackPlugin = require("antd-dayjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const getClientEnvironment = require("./utils/env");
@@ -36,7 +37,7 @@ const getPlugins = (isEnvDevelopment, isEnvProduction) => {
     return [
         // AntdThemePlugin,
         // 自定义路由配置插件
-        new RouterPlugin({
+        new RouterPlugin.AutoRouterWebPackPlugin({
             pagePath: path.resolve(paths.appSrc, "./pages"),
             output: paths.appSrc,
             filename: "router.ts",
@@ -53,27 +54,27 @@ const getPlugins = (isEnvDevelopment, isEnvProduction) => {
                 },
                 isEnvProduction
                     ? {
-                          minify: {
-                              removeComments: true,
-                              collapseWhitespace: true,
-                              removeRedundantAttributes: true,
-                              useShortDoctype: true,
-                              removeEmptyAttributes: true,
-                              removeStyleLinkTypeAttributes: true,
-                              keepClosingSlash: true,
-                              minifyJS: true,
-                              minifyCSS: true,
-                              minifyURLs: true,
-                          },
-                      }
+                        minify: {
+                            removeComments: true,
+                            collapseWhitespace: true,
+                            removeRedundantAttributes: true,
+                            useShortDoctype: true,
+                            removeEmptyAttributes: true,
+                            removeStyleLinkTypeAttributes: true,
+                            keepClosingSlash: true,
+                            minifyJS: true,
+                            minifyCSS: true,
+                            minifyURLs: true,
+                        },
+                    }
                     : undefined
             )
         ),
         // 内联的webpack运行时脚本，这些脚本太小而不能保证联网请求
         // https://github.com/facebook/create-react-app/issues/5358
         isEnvProduction &&
-            shouldInlineRuntimeChunk &&
-            new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
+        shouldInlineRuntimeChunk &&
+        new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
         // 构建一些环境变量在index.html中，如：
         // public URL => %PUBLIC_URL%
         // <link rel='icon' href="%PUBLIC_URL%">
@@ -99,14 +100,14 @@ const getPlugins = (isEnvDevelopment, isEnvProduction) => {
         // makes the discovery automatic so you don't have to restart.
         // See https://github.com/facebook/create-react-app/issues/186
         isEnvDevelopment &&
-            new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+        new WatchMissingNodeModulesPlugin(paths.appNodeModules),
         isEnvProduction &&
-            new MiniCssExtractPlugin({
-                // Options similar to the same options in webpackOptions.output
-                // both options are optional
-                filename: "static/css/[name].[contenthash:8].css",
-                chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
-            }),
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: "static/css/[name].[contenthash:8].css",
+            chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
+        }),
         // Generate an asset manifest file with the following content:
         // - "files" key: Mapping of all asset filenames to their corresponding
         //   output file so that tools can pick it up without having to parse
@@ -140,48 +141,48 @@ const getPlugins = (isEnvDevelopment, isEnvProduction) => {
         // Generate a service worker script that will precache, and keep up to date,
         // the HTML & assets that are part of the webpack build.
         isEnvProduction &&
-            new WorkboxWebpackPlugin.GenerateSW({
-                clientsClaim: true,
-                exclude: [/\.map$/, /asset-manifest\.json$/],
-                importWorkboxFrom: "cdn",
-                navigateFallback: paths.publicUrlOrPath + "index.html",
-                navigateFallbackBlacklist: [
-                    // Exclude URLs starting with /_, as they're likely an API call
-                    new RegExp("^/_"),
-                    // Exclude any URLs whose last part seems to be a file extension
-                    // as they're likely a resource and not a SPA route.
-                    // URLs containing a "?" character won't be blacklisted as they're likely
-                    // a route with query params (e.g. auth callbacks).
-                    new RegExp("/[^/?]+\\.[^/]+$"),
-                ],
-            }),
+        new WorkboxWebpackPlugin.GenerateSW({
+            clientsClaim: true,
+            exclude: [/\.map$/, /asset-manifest\.json$/],
+            importWorkboxFrom: "cdn",
+            navigateFallback: paths.publicUrlOrPath + "index.html",
+            navigateFallbackBlacklist: [
+                // Exclude URLs starting with /_, as they're likely an API call
+                new RegExp("^/_"),
+                // Exclude any URLs whose last part seems to be a file extension
+                // as they're likely a resource and not a SPA route.
+                // URLs containing a "?" character won't be blacklisted as they're likely
+                // a route with query params (e.g. auth callbacks).
+                new RegExp("/[^/?]+\\.[^/]+$"),
+            ],
+        }),
         // TypeScript type checking
         useTypeScript &&
-            new ForkTsCheckerWebpackPlugin({
-                typescript: resolve.sync("typescript", {
-                    basedir: paths.appNodeModules,
-                }),
-                async: isEnvDevelopment,
-                useTypescriptIncrementalApi: true,
-                checkSyntacticErrors: true,
-                resolveModuleNameModule: process.versions.pnp
-                    ? `${__dirname}/utils/pnpTs.js`
-                    : undefined,
-                resolveTypeReferenceDirectiveModule: process.versions.pnp
-                    ? `${__dirname}/utils/pnpTs.js`
-                    : undefined,
-                tsconfig: paths.appTsConfig,
-                reportFiles: [
-                    "**",
-                    "!**/__tests__/**",
-                    "!**/?(*.)(spec|test).*",
-                    "!**/src/setupProxy.*",
-                    "!**/src/setupTests.*",
-                ],
-                silent: true,
-                // The formatter is invoked directly in WebpackDevServerUtils during development
-                formatter: isEnvProduction ? typescriptFormatter : undefined,
+        new ForkTsCheckerWebpackPlugin({
+            typescript: resolve.sync("typescript", {
+                basedir: paths.appNodeModules,
             }),
+            async: isEnvDevelopment,
+            useTypescriptIncrementalApi: true,
+            checkSyntacticErrors: true,
+            resolveModuleNameModule: process.versions.pnp
+                ? `${__dirname}/utils/pnpTs.js`
+                : undefined,
+            resolveTypeReferenceDirectiveModule: process.versions.pnp
+                ? `${__dirname}/utils/pnpTs.js`
+                : undefined,
+            tsconfig: paths.appTsConfig,
+            reportFiles: [
+                "**",
+                "!**/__tests__/**",
+                "!**/?(*.)(spec|test).*",
+                "!**/src/setupProxy.*",
+                "!**/src/setupTests.*",
+            ],
+            silent: true,
+            // The formatter is invoked directly in WebpackDevServerUtils during development
+            formatter: isEnvProduction ? typescriptFormatter : undefined,
+        }),
     ];
 };
 
