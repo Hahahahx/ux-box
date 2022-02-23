@@ -1,26 +1,26 @@
-import { existsSync } from "fs";
-import errorOverlayMiddleware from "react-dev-utils/errorOverlayMiddleware";
-import evalSourceMapMiddleware from "react-dev-utils/evalSourceMapMiddleware";
-import noopServiceWorkerMiddleware from "react-dev-utils/noopServiceWorkerMiddleware";
-import ignoredFiles from "react-dev-utils/ignoredFiles";
-import redirectServedPath from "react-dev-utils/redirectServedPathMiddleware";
-import {
+const { existsSync } = require("fs");
+const errorOverlayMiddleware = require("react-dev-utils/errorOverlayMiddleware");
+const evalSourceMapMiddleware = require("react-dev-utils/evalSourceMapMiddleware");
+const noopServiceWorkerMiddleware = require("react-dev-utils/noopServiceWorkerMiddleware");
+const ignoredFiles = require("react-dev-utils/ignoredFiles");
+const redirectServedPath = require("react-dev-utils/redirectServedPathMiddleware");
+const {
     appPublic,
     publicUrlOrPath,
     appSrc,
     appNodeModules,
     proxySetup,
-} from "./utils/paths";
-import { resolve } from "path";
-import getHttpsConfig from "./utils/getHttpsConfig";
-import { themeMiddleware } from "ux-less-theme";
+} = require("./utils/paths");
+const { resolve } = require("path");
+const getHttpsConfig = require("./utils/getHttpsConfig");
+const { themeMiddleware } = require("ux-less-theme");
 
 const host = process.env.HOST || "0.0.0.0";
 const sockHost = process.env.WDS_SOCKET_HOST;
 const sockPath = process.env.WDS_SOCKET_PATH; // default: '/sockjs-node'
 const sockPort = process.env.WDS_SOCKET_PORT;
 
-export default function (proxy, allowedHost) {
+module.exports = function (proxy, allowedHost) {
     return {
         disableHostCheck:
             !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === "true",

@@ -1,6 +1,6 @@
 /// <reference types="react" />
 
-import { Routers, useRoute, RouterView, RouteParams } from "ux-autoroute";
+import { Routers, useRouter, RouterView, RouteParams } from "ux-autoroute";
 
 declare namespace Box {
     /**
@@ -30,5 +30,5 @@ declare module "ux-box-min" {
      */
     function run(params: Box.RunConfig): void;
 
-    export { run, Routers, RouterView, useRoute };
+    export { run, Routers, RouterView, useRouter };
 }

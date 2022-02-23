@@ -1,12 +1,12 @@
-import { existsSync } from "fs";
-import { resolve as _resolve, relative, join } from "path";
-import PnpWebpackPlugin, { moduleLoader } from "pnp-webpack-plugin";
-import TerserPlugin from "terser-webpack-plugin";
-import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
-import safePostCssParser from "postcss-safe-parser";
-import ModuleScopePlugin from "react-dev-utils/ModuleScopePlugin";
-import {
-    appPackageJson as _appPackageJson,
+const { existsSync } = require("fs");
+const { resolve: _resolve, relative, join } = require("path");
+const PnpWebpackPlugin = require("pnp-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const safePostCssParser = require("postcss-safe-parser");
+const ModuleScopePlugin = require("react-dev-utils/ModuleScopePlugin");
+const {
+    appPackageJson: _appPackageJson,
     appTsConfig,
     appIndexJs,
     appBuild,
@@ -14,11 +14,11 @@ import {
     appSrc,
     appNodeModules,
     moduleFileExtensions,
-} from "./utils/paths";
-import { additionalModulePaths, webpackAliases } from "./utils/modules";
-import { getRules } from "./rules";
-import { getPlugins } from "./plugins";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+} = require("./utils/paths");
+const { additionalModulePaths, webpackAliases } = require("./utils/modules");
+const { getRules } = require("./rules");
+const { getPlugins } = require("./plugins");
+// eslint-disable-next-line @typescript-eslint/no-require-const s
 const appPackageJson = require(_appPackageJson);
 
 const isExtendingEslintConfig = process.env.EXTEND_ESLINT === "true";
@@ -30,10 +30,10 @@ const useTypeScript = existsSync(appTsConfig);
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
-export default function (webpackEnv) {
+module.exports =  function (webpackEnv) {
     const isEnvDevelopment = webpackEnv === "development";
     const isEnvProduction = webpackEnv === "production";
- 
+
     // 用于在生产环境中启用分析的变量
     // 传入变量别名，如果传入构建命令，则使用标志
     const isEnvProductionProfile =
@@ -46,14 +46,14 @@ export default function (webpackEnv) {
         bail: isEnvProduction,
         devtool: isEnvProduction ? false : "ource-map",
         // These are the "entry points" to our application.
-        // This means they will be the "root" imports that are included in JS bundle.
+        // This means they will be the "root" const s that are included in JS bundle.
         entry: [
             // 兼容包
             "core-js/es",
             "core-js/es/map",
             "core-js/es/set",
             isEnvDevelopment &&
-                require.resolve("react-dev-utils/webpackHotDevClient"),
+            require.resolve("react-dev-utils/webpackHotDevClient"),
             // Finally, this is your app's code:
             appIndexJs,
             // We include the app code last so that if there is a runtime error during
@@ -76,21 +76,21 @@ export default function (webpackEnv) {
             chunkFilename: isEnvProduction
                 ? "static/js/[name].[contenthash:8].chunk.js"
                 : isEnvDevelopment && "static/js/[name].chunk.js",
-            // webpack uses `publicPath` to determine where the app is being served from.
+            // webpack uses `publicPath` to determine where the app is being served =require(.
             // It requires a trailing slash, or the file assets will get an incorrect path.
-            // We inferred the "public path" (such as / or /my-project) from homepage.
+            // We inferred the "public path" (such as / or /my-project) =require( homepage.
             publicPath: publicUrlOrPath,
             // Point sourcemap entries to original disk location (format as URL on Windows)
             devtoolModuleFilenameTemplate: isEnvProduction
                 ? (info) =>
-                      relative(appSrc, info.absoluteResourcePath).replace(
-                          /\\/g,
-                          "/"
-                      )
+                    relative(appSrc, info.absoluteResourcePath).replace(
+                        /\\/g,
+                        "/"
+                    )
                 : isEnvDevelopment &&
-                  ((info) =>
-                      _resolve(info.absoluteResourcePath).replace(/\\/g, "/")),
-            // Prevents conflicts when multiple webpack runtimes (from different apps)
+                ((info) =>
+                    _resolve(info.absoluteResourcePath).replace(/\\/g, "/")),
+            // Prevents conflicts when multiple webpack runtimes (=require( different apps)
             // are used on the same page.
             jsonpFunction: `webpackJsonp${appPackageJson.name}`,
             // this defaults to 'window', but by setting it to 'this' then
@@ -142,13 +142,13 @@ export default function (webpackEnv) {
                         parser: safePostCssParser,
                         map: isEnvDevelopment
                             ? {
-                                  // `inline: false` forces the sourcemap to be output into a
-                                  // separate file
-                                  inline: false,
-                                  // `annotation: true` appends the sourceMappingURL to the end of
-                                  // the css file, helping the browser find the sourcemap
-                                  annotation: true,
-                              }
+                                // `inline: false` forces the sourcemap to be output into a
+                                // separate file
+                                inline: false,
+                                // `annotation: true` appends the sourceMappingURL to the end of
+                                // the css file, helping the browser find the sourcemap
+                                annotation: true,
+                            }
                             : false,
                     },
                     cssProcessorPluginOptions: {
@@ -201,7 +201,7 @@ export default function (webpackEnv) {
                 "@components": join(appSrc, "/components"),
                 // 支持 React Native Web
                 // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-                "react-native": "react-native-web", 
+                "react-native": "react-native-web",
                 // 允许ReactDevTools更好的识别
                 ...(isEnvProductionProfile && {
                     "react-dom$": "react-dom/profiling",
@@ -209,12 +209,12 @@ export default function (webpackEnv) {
                 }),
                 ...(webpackAliases || {}),
             },
-            plugins: [ 
+            plugins: [
                 // 即插即用插件，更好的安装和添加模块，也防止某些依赖被遗忘
                 PnpWebpackPlugin,
-                // Prevents users from importing files from outside of src/ (or node_modules/).
+                // Prevents users =require( const ing files =require( outside of src/ (or node_modules/).
                 // This often causes confusion because we only process files within src/ with babel.
-                // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
+                // To fix this, we prevent you =require( const ing files out of src/ -- if you'd like to,
                 // please link the files into your node_modules/ and let module-resolution kick in.
                 // Make sure your source files are compiled, as they will not be processed in any way.
                 new ModuleScopePlugin(appSrc, [_appPackageJson]),
@@ -223,8 +223,8 @@ export default function (webpackEnv) {
         resolveLoader: {
             plugins: [
                 // Also related to Plug'n'Play, but this time it tells webpack to load its loaders
-                // from the current package.
-                moduleLoader(module),
+                // =require( the current package.
+                PnpWebpackPlugin.moduleLoader(module),
             ],
         },
         module: {
@@ -236,8 +236,8 @@ export default function (webpackEnv) {
             ),
         },
         plugins: getPlugins(isEnvDevelopment, isEnvProduction).filter(Boolean),
-        // Some libraries import Node modules but don't use them in the browser.
-        // Tell webpack to provide empty mocks for them so importing them works.
+        // Some libraries const  Node modules but don't use them in the browser.
+        // Tell webpack to provide empty mocks for them so const ing them works.
         node: {
             module: "empty",
             dgram: "empty",
