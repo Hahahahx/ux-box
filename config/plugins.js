@@ -41,7 +41,6 @@ const getPlugins = (isEnvDevelopment, isEnvProduction) => {
             pagePath: path.resolve(paths.appSrc, "./pages"),
             output: paths.appSrc,
             filename: "router.ts",
-            defaultLazyImport: true
         }),
         // antd时间插件momentjs替换为dayjs，减小包大小
         new AntdDayJsWebpackPlugin(),
