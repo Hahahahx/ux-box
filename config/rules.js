@@ -184,17 +184,17 @@ const getRules = (isEnvDevelopment, isEnvProduction, shouldUseSourceMap) => {
                                     style: true, // change importing css to less
                                 },
                             ],
+
+                            "@babel/plugin-syntax-jsx",
                             [
-                                "@babel/plugin-syntax-jsx",
-                                [
-                                    "@babel/plugin-transform-react-jsx",
-                                    {
-                                        "throwIfNamespace": false, // 取消默认导出命名空间
-                                        "runtime": "automatic", // 自动引入
-                                        "importSource": "custom-jsx-library" // 默认引入资源为React
-                                    }
-                                ]
+                                "@babel/plugin-transform-react-jsx",
+                                {
+                                    "throwIfNamespace": false, // 取消默认导出命名空间
+                                    "runtime": "automatic", // 自动引入
+                                    "importSource": "custom-jsx-library" // 默认引入资源为React
+                                }
                             ]
+
                         ],
                         // This is a feature of `babel-loader` for webpack (not Babel itself).
                         // It enables caching results in ./node_modules/.cache/babel-loader/
