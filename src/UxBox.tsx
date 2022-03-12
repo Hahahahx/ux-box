@@ -1,21 +1,15 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
-import { Routers } from "ux-autoroute";
+import { RouterParams, Routers } from "ux-autoroute";
 
-const RouteComponent = ({ NoMatch, isHashRouter, router }: Route) => {
-    return (
-        <Routers
-            type={isHashRouter ? "hash" : "history"}
-            routers={router}
-            noMatch={NoMatch}
-        />
-    );
+const RouteComponent = (params: RouterParams) => {
+    return <Routers {...params} />;
 };
 
-export const run = ({ router }: RunConfig) => {
+export const run = (params: RouterParams) => {
     ReactDOM.render(
-        <RouteComponent {...router} />,
+        <RouteComponent {...params} />,
         document.getElementById("root")
     );
 
@@ -24,13 +18,3 @@ export const run = ({ router }: RunConfig) => {
     // Learn more about service workers: https://bit.ly/CRA-PWA
     serviceWorker.unregister();
 };
-
-interface RunConfig {
-    router: Route;
-}
-
-interface Route {
-    router: any;
-    isHashRouter?: boolean;
-    NoMatch: ReactElement | JSX.Element;
-}
