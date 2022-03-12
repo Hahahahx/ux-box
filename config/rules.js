@@ -141,10 +141,29 @@ const getRules = (isEnvDevelopment, isEnvProduction, shouldUseSourceMap) => {
                                     useBuiltIns: "usage", // 默认 false, 可选 entry , usage
                                 },
                             ],
-                            "@babel/preset-react",
+                            [
+                                // 已经可以自动引入react了，还需要t
+                                "@babel/preset-react", {
+                                    // "pragma": "dom", // 默认是 React.createElement（仅在经典的运行时中）
+                                    // "pragmaFrag": "DomFrag", // 默认是 React.Fragment（仅在经典的运行时中）
+                                    "throwIfNamespace": false, // 默认是 true
+                                    // "runtime": "automatic",// 默认是 classic
+                                    // "importSource": "custom-jsx-library" // 默认是 react（仅在经典的运行时中）
+                                }
+                            ],
                             "@babel/preset-typescript",
                         ],
                         plugins: [
+
+                            // "@babel/plugin-syntax-jsx",
+                            // [
+                            //     "@babel/plugin-transform-react-jsx",
+                            //     {
+                            //         "throwIfNamespace": false, // 取消默认导出命名空间
+                            //         "runtime": "automatic", // 自动引入
+                            //         "importSource": "custom-jsx-library" // 默认引入资源为React
+                            //     }
+                            // ],
                             [
                                 "@babel/plugin-transform-runtime",
                                 {
@@ -184,16 +203,6 @@ const getRules = (isEnvDevelopment, isEnvProduction, shouldUseSourceMap) => {
                                     style: true, // change importing css to less
                                 },
                             ],
-
-                            "@babel/plugin-syntax-jsx",
-                            [
-                                "@babel/plugin-transform-react-jsx",
-                                {
-                                    "throwIfNamespace": false, // 取消默认导出命名空间
-                                    "runtime": "automatic", // 自动引入
-                                    "importSource": "custom-jsx-library" // 默认引入资源为React
-                                }
-                            ]
 
                         ],
                         // This is a feature of `babel-loader` for webpack (not Babel itself).
