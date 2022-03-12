@@ -155,7 +155,6 @@ const getRules = (isEnvDevelopment, isEnvProduction, shouldUseSourceMap) => {
                                 },
                             ],
                             "@babel/plugin-proposal-optional-chaining",
-                            "@babel/plugin-syntax-jsx",
                             [
                                 "@babel/plugin-proposal-decorators",
                                 {
