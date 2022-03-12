@@ -142,7 +142,7 @@ const getRules = (isEnvDevelopment, isEnvProduction, shouldUseSourceMap) => {
                                 },
                             ],
                             [
-                                // 已经可以自动引入react了，还需要t
+                                // 已经可以自动引入react了，还需要ts添加配置项allowUmdGlobalAccess避免报错
                                 "@babel/preset-react", {
                                     // "pragma": "dom", // 默认是 React.createElement（仅在经典的运行时中）
                                     // "pragmaFrag": "DomFrag", // 默认是 React.Fragment（仅在经典的运行时中）
